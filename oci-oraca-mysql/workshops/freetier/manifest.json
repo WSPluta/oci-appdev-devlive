@@ -33,22 +33,17 @@
             "filename": "../../g-lab-six-build&deploy-app/build-app.md"
         },
         {
-            "title": "Lab 7: Enhance application",
+            "title": "Lab 3: Enhance application",
             "description": "Build new microservice using Oracle AI Code Assist",
             "filename": "../../h-lab-seven-extend&deploy-app-oraca/oraca-codeassist.md"
         },
         {
-            "title": "Lab 8: Instrument browser monitoring",
+            "title": "Lab 4: End to End Application Monitoring using OCI O&M Services",
             "description": "Instrumentation for browser monitoring",
             "filename": "../../i-lab-eight-configure-browser-agent/configure-browser-agent.md"
         },
         {
-            "title": "Lab 9: End to End Application Monitoring using OCI O&M Services",
-            "description": "End to End Application Monitoring using OCI O&M Services",
-            "filename": "../../j-lab-nine-monitorapplication/view-traces.md"
-        },
-        {
-            "title": "Lab 10: Clean up the workshop environment",
+            "title": "Lab 5: Clean up the workshop environment",
             "description": "Clean up the workshop environment",
             "filename": "../../k-lab-ten-cleanup/cleanup.md"
         },
