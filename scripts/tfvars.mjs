@@ -16,6 +16,7 @@ async function generateTFVars() {
     regionName,
     tenancyId,
     publicKeyContent,
+    privateKeyPath,
   } = await readEnvJson();
 
   const tfVarsPath = "deployment/terraform/terraform.tfvars";
@@ -27,6 +28,7 @@ async function generateTFVars() {
     regionName,
     compartmentId,
     ssh_public_key: publicKeyContent,
+    ssh_private_key_path: privateKeyPath,
   });
 
   console.log(

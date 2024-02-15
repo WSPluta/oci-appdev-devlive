@@ -41,6 +41,7 @@ terraform.rc
 # Scripts
 node_modules
 .env.json
+**/generated/*
 
 # Miscellaneous
 .DS_Store

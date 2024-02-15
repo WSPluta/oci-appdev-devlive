@@ -88,6 +88,7 @@ async function createSSHKeys(name) {
     ...properties,
     publicKeyContent,
     publicKeyPath: `${sshPathParam}.pub`,
+    privateKeyPath: `${sshPathParam}`,
   };
   await writeEnvJson(properties);
 }
