@@ -1,5 +1,7 @@
 locals {
   oke_latest_version = reverse(sort(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions))[0]
+  tcp                = "6"
+  anywhere           = "0.0.0.0/0"
 }
 
 module "oke" {
@@ -15,22 +17,35 @@ module "oke" {
     oci      = oci
     oci.home = oci.home
   }
-  
-  cluster_name = "${local.project_name}-${local.deploy_id}-oke"
-  vcn_name = "${local.project_name}-${local.deploy_id}-vcn"
 
-  cni_type                = "npn"  // *flannel/npn
-  kubernetes_version      = local.oke_latest_version
-  cluster_type            = "enhanced" // *basic/enhanced
-  
-  control_plane_is_public = true
+  kubernetes_version = local.oke_latest_version
+  cluster_name = "${local.project_name}-${local.deploy_id}-oke"
+  vcn_name     = "${local.project_name}-${local.deploy_id}-vcn"
+
+  cni_type           = "npn"
+  cluster_type       = "enhanced"
+
+  control_plane_is_public     = true
   control_plane_allowed_cidrs = ["0.0.0.0/0"]
 
-  create_bastion            = false
-  create_operator        = false
+  create_bastion  = false
+  create_operator = false
 
-  ssh_private_key_path    = var.ssh_private_key_path
-  ssh_public_key          = var.ssh_public_key
+  ssh_private_key_path = var.ssh_private_key_path
+  ssh_public_key       = var.ssh_public_key
+
+  # mysql subnet will be on "10.0.1.0/28" CIDR
+  subnets = {
+    bastion  = { cidr = "10.0.0.0/29" }
+    cp       = { cidr = "10.0.0.8/29" }
+    int_lb   = { cidr = "10.0.0.32/27" }
+    operator = { cidr = "10.0.0.64/29" }
+    pods     = { cidr = "10.0.64.0/18" }
+    pub_lb   = { cidr = "10.0.128.0/27" }
+    workers  = { cidr = "10.0.144.0/20" }
+  }
+
+  # worker_nsg_ids = []
 
   worker_pools = {
     oke-vm-standard-e4-flex = {
@@ -48,7 +63,7 @@ module "oke" {
 }
 
 data "oci_containerengine_cluster_option" "test_cluster_option" {
-    cluster_option_id = "all"
+  cluster_option_id = "all"
 }
 
 data "oci_containerengine_cluster_kube_config" "kube_config" {

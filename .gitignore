@@ -42,6 +42,8 @@ terraform.rc
 node_modules
 .env.json
 **/generated/*
+**/.env
+**/my.cnf
 
 # Miscellaneous
 .DS_Store
