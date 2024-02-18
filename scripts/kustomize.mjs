@@ -2,7 +2,7 @@
 
 import Mustache from "mustache";
 import { readEnvJson } from "./lib/utils.mjs";
-import { containerLogin } from "./lib/container.mjs";
+import { getOutputValues } from "./lib/terraform.mjs";
 
 const shell = process.env.SHELL | "/bin/zsh";
 $.shell = shell;
@@ -16,22 +16,9 @@ const {
   user_auth_token,
   user_email,
   repository_name,
-} = await getTFOutputValues();
+} = await getOutputValues("deployment/terraform");
 
 await generateKustomizeFiles();
-
-async function getTFOutputValues() {
-  await cd("deployment/terraform");
-  const { stdout } = await $`terraform output -json`;
-  const terraformOutput = JSON.parse(stdout);
-
-  const values = {};
-  for (const [key, content] of Object.entries(terraformOutput)) {
-    values[key] = content.value;
-  }
-  await cd("../..");
-  return values;
-}
 
 async function generateKustomizeFiles() {
   await createMyCnfFile(mysql_private_ip, mysql_admin_password);
@@ -43,12 +30,6 @@ async function generateKustomizeFiles() {
     user_email
   );
   await createOverlayFile(registry_url, namespace, repository_name);
-  await loginContainerRegistry(
-    registry_url,
-    namespace,
-    user_name,
-    user_auth_token
-  );
 
   console.log(
     `1. ${chalk.yellow(
@@ -139,16 +120,4 @@ async function createOverlayFile(registry_url, namespace, repository_name) {
   await fs.writeFile(overlayKustomizationPath, output);
 
   console.log(`File ${chalk.green(overlayKustomizationPath)} created`);
-}
-
-async function loginContainerRegistry(
-  registry_url,
-  namespace,
-  user_name,
-  user_auth_token
-) {
-  console.log("Login to container registry...");
-
-  await containerLogin(namespace, user_name, user_auth_token, registry_url);
-  console.log();
 }

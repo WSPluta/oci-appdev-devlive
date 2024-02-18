@@ -2,8 +2,8 @@
 
 ## TODO
 
-- Deploy **Spring Boot App** with MySQL connectivity
 - By script (maybe something like `artifacts.mjs`); build and push Spring Boot app container image to OCI Container Registry (user and token has to be created with terraform). Add the image token secret to the kustomize deployment.
+- Deploy **Spring Boot App** with MySQL connectivity
 - Deploy a Checker (busybox) pod to run **cURL** commands to check the Spring Boot application.
 - Merge this **AUTOMATION** guide with the existing LiveLabs format.
 
@@ -58,6 +58,12 @@ cd ../..
 Time to create the files required for the Kubernetes components that you are going to deploy.
 
 ## Deploy to Kubernetes
+
+Run the following script that will build the service app and run the tests. It will build the container image and push it to Oracle Container Registry.
+
+```bash
+npx zx scripts/artifacts.mjs
+```
 
 Run the following script that will create config files for the Config Maps.
 

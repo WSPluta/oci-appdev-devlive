@@ -4,46 +4,59 @@ import { buildJarGradle, getVersionGradle } from "./lib/gradle.mjs";
 import {
   buildImage,
   checkPodmanMachineRunning,
+  containerLogin,
   pushImage,
   tagImage,
 } from "./lib/container.mjs";
 import { readEnvJson } from "./lib/utils.mjs";
+import { getOutputValues } from "./lib/terraform.mjs";
 
 const shell = process.env.SHELL | "/bin/zsh";
 $.shell = shell;
-$.verbose = true;
+$.verbose = false;
 
 const { namespace, registry_url } = await readEnvJson();
-const { repository_name } = await getTFOutputValues();
+const { user_name, user_auth_token, repository_name } = await getOutputValues(
+  "deployment/terraform"
+);
 
 await checkPodmanMachineRunning();
+await loginContainerRegistry(
+  registry_url,
+  namespace,
+  user_name,
+  user_auth_token
+);
 
-const pwd = (await $`pwd`).stdout.trim();
+await buildAndReleaseServiceMySQL();
 
-const service = "service-mysql";
-await cd(`src/${service}`);
-const version = await getVersionGradle();
-await buildJarGradle();
+async function loginContainerRegistry(
+  registry_url,
+  namespace,
+  user_name,
+  user_auth_token
+) {
+  console.log("Login to container registry...");
 
-const image_name = `${service}`;
-await buildImage(`localhost/${image_name}`, version);
-const local_image = `localhost/${image_name}:${version}`;
-const remote_image = `${registry_url}/${namespace}/${repository_name}/${image_name}:${version}`;
-await tagImage(local_image, remote_image);
-await pushImage(remote_image);
-console.log(`Released: ${chalk.yellow(remote_image)}`);
+  await containerLogin(namespace, user_name, user_auth_token, registry_url);
+  console.log();
+}
 
-await cd(pwd);
+async function buildAndReleaseServiceMySQL() {
+  const pwd = (await $`pwd`).stdout.trim();
 
-async function getTFOutputValues() {
-  await cd("deployment/terraform");
-  const { stdout } = await $`terraform output -json`;
-  const terraformOutput = JSON.parse(stdout);
+  const service = "service-mysql";
+  await cd(`src/${service}`);
+  const version = await getVersionGradle();
+  await buildJarGradle();
 
-  const values = {};
-  for (const [key, content] of Object.entries(terraformOutput)) {
-    values[key] = content.value;
-  }
-  await cd("../..");
-  return values;
+  const image_name = `${service}`;
+  await buildImage(`localhost/${image_name}`, version);
+  const local_image = `localhost/${image_name}:${version}`;
+  const remote_image = `${registry_url}/${namespace}/${repository_name}/${image_name}:${version}`;
+  await tagImage(local_image, remote_image);
+  await pushImage(remote_image);
+  console.log(`Released: ${chalk.yellow(remote_image)}`);
+
+  await cd(pwd);
 }
