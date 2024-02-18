@@ -1,0 +1,7 @@
+resources:
+  - service-mysql.yaml
+  - service-mysql-svc.yaml
+configMapGenerator:
+  - name: service-mysql-properties
+    files:
+      - application.yaml

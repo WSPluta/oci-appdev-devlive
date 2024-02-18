@@ -102,7 +102,7 @@ kubectl get po
 Copy the name of the pod and `exec` into it with the following command.
 
 ```bash
-kubectl exec -it `mysql-client-xxx` -- bash
+kubectl exec -it mysql-client-xxx -- bash
 ```
 
 Run `mysql` client application, the host and credentials are already on `/etc/my.cnf` file.

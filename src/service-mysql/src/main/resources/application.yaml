@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://IP_ADDRESS:3306/db_example
+    user: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver

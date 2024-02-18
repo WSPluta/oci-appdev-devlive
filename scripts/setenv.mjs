@@ -22,8 +22,11 @@ let properties = await readEnvJson();
 await setTenancyEnv();
 await setNamespaceEnv();
 await setRegionEnv();
+await setRegistryEnv();
 await setCompartmentEnv();
 await createSSHKeys("devlive");
+
+console.log(`File ${chalk.yellow(".env.json")} created.`);
 
 async function setTenancyEnv() {
   const tenancyId = await getTenancyId();
@@ -34,6 +37,13 @@ async function setTenancyEnv() {
 async function setNamespaceEnv() {
   const namespace = await getNamespace();
   properties = { ...properties, namespace };
+  await writeEnvJson(properties);
+}
+
+async function setRegistryEnv() {
+  const { regionKey } = properties;
+  const registry_url = `${regionKey}.ocir.io`;
+  properties = { ...properties, registry_url };
   await writeEnvJson(properties);
 }
 
@@ -90,5 +100,6 @@ async function createSSHKeys(name) {
     publicKeyPath: `${sshPathParam}.pub`,
     privateKeyPath: `${sshPathParam}`,
   };
+  console.log(`SSH key ${chalk.yellow(sshPathParam)} created.`);
   await writeEnvJson(properties);
 }

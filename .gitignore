@@ -1,14 +1,28 @@
 # Compiled class file
 *.class
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### VS Code ###
+.vscode/
 
 # Log file
 *.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
 
 # Package Files #
 *.jar
@@ -44,6 +58,9 @@ node_modules
 **/generated/*
 **/.env
 **/my.cnf
+**/.dockerconfigjson
+deployment/kubernetes/overlays/demo/kustomization.yaml
+deployment/kubernetes/base/service-mysql/application.yaml
 
 # Miscellaneous
 .DS_Store
