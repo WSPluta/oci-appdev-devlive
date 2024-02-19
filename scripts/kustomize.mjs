@@ -25,6 +25,7 @@ async function generateKustomizeFiles() {
   await createApplicationYamlFile(mysql_private_ip, mysql_admin_password);
   await createDockerConfigJsonFile(
     registry_url,
+    namespace,
     user_name,
     user_auth_token,
     user_email
@@ -81,6 +82,7 @@ async function createApplicationYamlFile(
 
 async function createDockerConfigJsonFile(
   registry_url,
+  namespace,
   user_name,
   user_auth_token,
   user_email
@@ -94,10 +96,10 @@ async function createDockerConfigJsonFile(
 
   const output = Mustache.render(dockerConfigTemplate, {
     registry_url: registry_url,
-    user_name: user_name,
+    user_name: `${namespace}/${user_name}`,
     user_auth_token: user_auth_token,
     user_email: user_email,
-    user_auth_secret: btoa(`${user_name}:${user_auth_token}`),
+    user_auth_secret: btoa(`${namespace}/${user_name}:${user_auth_token}`),
   });
 
   await fs.writeFile(dockerConfigPath, output);
