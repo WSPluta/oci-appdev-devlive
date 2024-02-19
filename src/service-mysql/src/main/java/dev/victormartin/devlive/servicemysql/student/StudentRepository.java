@@ -1,4 +1,4 @@
-package dev.victormartin.devlive.servicemysql;
+package dev.victormartin.devlive.servicemysql.student;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

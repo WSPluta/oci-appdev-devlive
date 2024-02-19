@@ -1,4 +1,4 @@
-package dev.victormartin.devlive.servicemysql;
+package dev.victormartin.devlive.servicemysql.student;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
