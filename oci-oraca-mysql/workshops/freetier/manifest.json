@@ -15,37 +15,27 @@
         {
             "title": "Lab 1: Create Environment ",
             "description": "Create a Kubernetes cluster, MySQL and deploy microservice application",
-            "filename": "../../b-lab-one-create-oke/create-oke.md"
+            "filename": "../../a-lab-one-create-env/AUTOMATION.md"
         },
         {
             "title": "Lab 2: Configure Logging Analytics",
             "description": "Configure Logging Analytics and Create an APM Domain and obtain Data Upload Endpoint and Private Data Key ",
-            "filename": "../../e-lab-four-configure-la/enbale_la_kubernetes.md"
-        },
-        {
-            "title": "--Lab 5: Create an APM Domain and obtain Data Upload Endpoint and Private Data Key ",
-            "description": "Create an APM Domain and obtain Data Upload Endpoint and Private Data Key ",
-            "filename": "../../f-lab-five-create-domain/create-domain.md"
-         },
-        {
-            "title": "--Lab 6: Deploy application",
-            "description": "Deploy a microservices application",
-            "filename": "../../g-lab-six-build&deploy-app/build-app.md"
+            "filename": "../../b-lab-two-configure-la/enable-la-service.md"
         },
         {
             "title": "Lab 3: Enhance application",
             "description": "Build new microservice using Oracle AI Code Assist",
-            "filename": "../../h-lab-seven-extend&deploy-app-oraca/oraca-codeassist.md"
+            "filename": "../../c-lab-three-extend&deploy-app-oraca/oraca-codeassist.md"
         },
         {
             "title": "Lab 4: End to End Application Monitoring using OCI O&M Services",
             "description": "Instrumentation for browser monitoring",
-            "filename": "../../i-lab-eight-configure-browser-agent/configure-browser-agent.md"
+            "filename": "../../d-lab-four-configure-browser-agent/configure-browser-agent.md"
         },
         {
             "title": "Lab 5: Clean up the workshop environment",
             "description": "Clean up the workshop environment",
-            "filename": "../../k-lab-ten-cleanup/cleanup.md"
+            "filename": "../../e-lab-five-cleanup/cleanup.md"
         },
         {
             "title": "Need Help?",
