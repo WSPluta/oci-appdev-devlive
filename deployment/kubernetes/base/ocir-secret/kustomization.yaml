@@ -1,0 +1,5 @@
+secretGenerator:
+- name: ocir-secret
+  files:
+    - .dockerconfigjson
+  type: "kubernetes.io/dockerconfigjson"

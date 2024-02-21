@@ -1,0 +1,11 @@
+
+images:
+- name: service-mysql
+  newName: {{{ service_mysql_image }}}
+  newTag: latest
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base/ocir-secret
+- ../../base/mysql-client
+- ../../base/service-mysql

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mysql-client
+  name: mysql-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-client
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: mysql-client
+    spec:
+      containers:
+      - image: mysql
+        name: mysql-client
+        imagePullPolicy: Always
+        command: ["sleep", "3600"]
+        volumeMounts:
+        - name: mycnf
+          mountPath: "/etc/my.cnf"
+          subPath: my.cnf
+        readinessProbe:
+          periodSeconds: 30
+          exec:
+            command:
+            - cat
+            - /etc/my.cnf
+        livenessProbe:
+          periodSeconds: 30
+          exec:
+            command:
+            - cat
+            - /var/log/mysqld.log
+        resources: 
+          requests:
+            cpu: 500m
+            memory: 256Mi
+          limits:
+            cpu: 1500m
+            memory: 521Mi
+      volumes:
+      - name: mycnf
+        configMap:
+          name: mycnf-configmap
